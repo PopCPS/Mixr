@@ -1,5 +1,5 @@
 import { Play } from "lucide-react";
-import { RefObject, useEffect } from "react";
+import { RefObject } from "react";
 import { dateFormatter } from "../lib/date-formatter";
 import { formatTrackLength } from "../lib/format-track-length";
 
