@@ -8,6 +8,7 @@ span, p, h1, h2, h3, h4 {
 
 ::-webkit-scrollbar {
   width: 4px;
+  display: none
 }
 ::-webkit-scrollbar-thumb {
   background: #a1a1aa;
@@ -15,4 +16,28 @@ span, p, h1, h2, h3, h4 {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.custom-range {
+  appearance: none;
+  width: 10rem;
+  height: 0.25rem;
+  border-radius: 0.125rem;
+  background-color: #9164FA;
+}
+
+.custom-range::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: #FFF;
+  border: 4px solid #04D361;
+  border-radius: 50%;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.custom-range::-webkit-slider-thumb::before {
+  position: relative;
+  background-color: #04D361;
 }

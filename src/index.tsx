@@ -1,27 +1,33 @@
 import { Header } from "./components/header";
 import { LastReleases } from "./components/last-releases";
 import { AudioPlayer } from "./components/audio-player";
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import { AllReleases } from "./components/all-releases";
 import { tracksList } from "./lib/podcasts";
 import { TracksInterface } from "./lib/tracks"
+import { Headphones } from "./components/headphones";
+import { PlayerMusicDisplay } from "./components/player-music-display";
 
 export function Index() {
 
   const [ isDarkModeActive, setIsDarkModeActive ] = useState(false)
   const [ isPlaying, setIsPlaying ] = useState(false)
-  const [ trackIndex, setTrackIndex ] = useState<number>(0);  
+  const [ trackIndex, setTrackIndex ] = useState<number>();  
   const [ tracks, setTracks ] = useState<TracksInterface[]>([])
+  const [ audioRef ] = useState(createRef<HTMLAudioElement>());
+
+  function setTrack(index: number) {
+    setTrackIndex(index)
+  }
 
   useEffect(() => {
     setTracks(tracksList)
+    
   }, [tracks])
 
-  console.log(tracks)
-
   return (
-    <div className="flex">
-      <div className="flex flex-col bg-neutral-50 w-[1400px]">
+    <div className="flex h-screen">
+      <div className="flex flex-col bg-neutral-50 min-w-[70%] w-[75%]">
         
         <Header
           setIsDarkModeActive={setIsDarkModeActive}
@@ -32,24 +38,41 @@ export function Index() {
 
           <LastReleases 
             tracksList={tracksList}
+            setTrack={setTrack}
           />
 
           <AllReleases
             tracksList={tracksList}
+            setTrack={setTrack}
           />
 
         </main>
       </div>
 
-      {tracks.length > 0 && (
+      <aside className="flex flex-col items-center justify-between bg-lilac py-8 w-full max-w-[25%] dark:bg-aPurple">
+        <div className="flex items-center gap-4">
+          <Headphones />
+          <span className="font-semibold text-neutral-50">Tocando agora</span>
+        </div>
+
+        <PlayerMusicDisplay 
+          trackIndex={trackIndex}
+          tracks={tracksList}
+        />
+
         <AudioPlayer 
-          tracks={tracks}
           isPlaying={isPlaying}
           trackIndex={trackIndex}
-          setTrackIndex={setTrackIndex}
+          tracks={tracksList}
+          audioRef={audioRef}
           setIsPlaying={setIsPlaying}
+          setTrackIndex={setTrackIndex}
         />
-      )}
+
+        
+      </aside>
+
+
 
     </div>
   )

@@ -1,12 +1,13 @@
 import { Shuffle, SkipBack, Play, SkipForward, Repeat, Pause } from "lucide-react";
-import { Headphones } from "./headphones";
-import { useEffect, useRef, useState } from "react";
 import { TracksInterface } from "../lib/tracks"
+import { RefObject, useEffect, useState } from "react";
+import { formatTrackLength } from "../lib/format-track-length";
 
 interface AudioPlayerProps {
   tracks: TracksInterface[],
   isPlaying: boolean | undefined,
-  trackIndex: number,
+  trackIndex: number | undefined,
+  audioRef: RefObject<HTMLAudioElement>,
   setTrackIndex: (arg0: number) => void,
   setIsPlaying: (arg0: boolean) => void
 }
@@ -15,60 +16,35 @@ export function AudioPlayer({
   tracks, 
   isPlaying,
   trackIndex, 
+  audioRef,
   setIsPlaying,
   setTrackIndex,
 }: AudioPlayerProps) {
 
-  const { title, artist, audioSrc, image } = tracks[trackIndex]
-  const [trackProgress, setTrackProgress] = useState(0);
-
-  const audioRef = useRef(new Audio(audioSrc));
-  const intervalRef = useRef<number | undefined>();
-  const isReady = useRef(false);
-
-  const { duration } = audioRef.current
-
-  // const currentPercentage = duration 
-  //   ? `${(trackProgress / duration) * 100}%`
-  //   : '0%'
-
-  const hours = Math.floor(duration / 3600);
-  const minutes = Math.floor(duration / 60)
-  const seconds = duration - minutes * 60
-
-  const startTimer = () => {
-    if(intervalRef.current) {
-      clearInterval(intervalRef.current)
+  const [ audioSource, setAudioSource ] = useState<string>()
+  const [ duration, setDuration ] = useState(0);
+  const [ curr, setCurr ] = useState(0);
+  const handleProgress = (e : any) => {
+    if(audioRef.current) {
+      const progress = (Number(e.target.value) * duration) / 100
+      setCurr(progress)
+      audioRef.current.currentTime = progress
     }
-    
-    if(intervalRef) {
-      intervalRef.current = setInterval(() => {
-        if (audioRef.current.ended) {
-          toNextTrack();
-        } else {
-          setTrackProgress(audioRef.current.currentTime);
-        }
-      }, 1000);
-    }
-  }
-
-  // const onScrub = (value: number) => {
-  //   if(intervalRef.current) {
-  //     clearInterval(intervalRef.current)
-  //   }
-  //   audioRef.current.currentTime = value
-  //   setTrackProgress(audioRef.current.currentTime)
-  // }
-
-  // const onScrubEnd = () => {
-  //   if (!isPlaying) {
-  //     setIsPlaying(true);
-  //   }
-  //   startTimer();
-  // }
+  } 
+  const getProgressValue = () => {
+    const value = (curr * 100) / duration;
+    return !Number.isNaN(value) ? value : 0;
+  };
 
   function handlePlayer() {
-    setIsPlaying(!isPlaying)
+    if(audioRef.current) {
+      setIsPlaying(!isPlaying)
+      if(!isPlaying) {
+        audioRef.current.play()
+      } else {
+        audioRef.current.pause()
+      }
+    }
   }
 
   function toNextTrack() {
@@ -77,6 +53,7 @@ export function AudioPlayer({
     } else {
       trackIndex < tracks.length - 1 ? setTrackIndex(trackIndex + 1) : setTrackIndex(0)
     }
+    
   }
         
   function toPreviousTrack() {
@@ -88,91 +65,99 @@ export function AudioPlayer({
   }
 
   useEffect(() => {
-    if (isPlaying) {
-      audioRef.current.play();
-      startTimer();
-    } else {
-      audioRef.current.pause();
-    }
-  }, [isPlaying]);
-
-  useEffect(() => {
-      audioRef.current.pause()
-
-      audioRef.current = new Audio(audioSrc)
-      setTrackProgress(audioRef.current.currentTime)
-
-      if (isReady.current) {
-        audioRef.current.play()
-        setIsPlaying(true)
-        startTimer()
-      } else {
-        isReady.current = true
-      }
-  }, [trackIndex])
-
-  useEffect(() => {
-    return () => {
-      audioRef.current.pause()
-      clearInterval(intervalRef.current)
+    if(trackIndex !== undefined) {
+      const { audioSrc } = tracks[trackIndex]
+      setAudioSource(audioSrc)
     }
   }, [])
 
-  return (
-    <aside className="flex flex-col items-center justify-between bg-lilac py-8 w-[520px]">
-      <div className="flex items-center gap-4">
-        <Headphones />
-        <span className="font-semibold text-neutral-50">Tocando agora</span>
-      </div>
+  useEffect(() => {
+    if(audioRef.current) {
+      if(!isPlaying) {
+        audioRef.current.pause()
+      } else {
+        audioRef.current.play()
+      }
+      if(trackIndex !== undefined) {
+        const { audioSrc } = tracks[trackIndex]
+        setAudioSource(audioSrc)
+      }
+    }
+    
+  }, [audioSource, trackIndex])
 
-        {trackIndex != null ? (
-          <div className="flex flex-col items-center justify-center gap-8">
-            {image ? (
-              <div className={`flex items-center justify-center w-80 h-96 rounded-3xl bg-center bg-cover bg-no-repeat`} style={{backgroundImage: `url(${image})`}} />
-            ) : (
-              <div className="flex items-center justify-center border-2 border-lilac-border border-dashed w-80 h-96 rounded-3xl bg-gradient-to-t from-lilac to-lilac-light" />
-            )}
-            <div className="flex flex-col items-center justify-center gap-2">
-              <h2 className="text-zinc-300 text-2xl font-semibold">{title}</h2>
-              <span className="text-zinc-300">{artist}</span> 
-            </div>
+  return (
+    <>
+      {trackIndex !== undefined ? (
+        <div className="flex flex-col justify-center items-center p-3 space-y-10 w-full">
+          <div className="flex w-96 justify-center items-center gap-4">
+            <audio 
+              onTimeUpdate={e => setCurr((e.target as any).currentTime)}
+              onCanPlay={e => setDuration((e.target as any).duration)}
+              ref={audioRef}
+              src={audioSource ?? ''} 
+            />
+            <span className="text-slate-300 text-sm">{formatTrackLength(curr)}</span>
+            <input 
+              className="custom-range dark:bg-aPurple-light"
+              type="range"
+              onChange={handleProgress}
+              value={getProgressValue()}
+            />
+            <span className="text-slate-300 text-sm">{audioRef.current && formatTrackLength(audioRef.current.duration)}</span>
+          </div>
+      
+          <div className="flex items-center justify-between w-64">
+            <button>
+              <Shuffle className="size-6 text-slate-300" />
+            </button>
+            <button>
+              <SkipBack onClick={toPreviousTrack} className="size-6 text-slate-300" />
+            </button>
+            <button onClick={handlePlayer} className="p-4 bg-violet-400 rounded-2xl dark:bg-aPurple-light">
+              {isPlaying ? (
+                <Pause className="size-8 text-slate-300" />
+                ) : (
+                <Play className="size-8 text-slate-300" />
+              )}
+            </button>
+            <button>
+              <SkipForward onClick={toNextTrack} className="size-6 text-slate-300" />
+            </button>
+            <button>
+              <Repeat className="size-6 text-slate-300" />
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center p-3 space-y-10 w-full">
+          <div className="flex w-96 justify-center items-center gap-4">
+            <audio/>
+            <span className="text-slate-300 text-sm">00:00</span>
+            <div className="custom-range dark:bg-aPurple-light" />
+            <span className="text-slate-300 text-sm">00:00</span>
           </div>
 
-        ) : (
-          <div className="flex items-center justify-center border-2 border-lilac-border border-dashed w-80 h-96 rounded-3xl bg-gradient-to-t from-lilac to-lilac-light">
-            <span className="text-center text-neutral-50 font-semibold w-40">Selecione um <br /> podcast para ouvir</span>
-          </div>    
-        )}
-      
-      <div className="flex flex-col justify-center items-center p-3 space-y-10 w-full">
-        <div className="flex w-96 justify-center items-center gap-4">
-          <span className="text-slate-300 text-sm">{Math.round(trackProgress)}</span>
-          <div className="w-40 bg-violet-400 h-1 rounded-sm" />
-          <span className="text-slate-300 text-sm">{!isNaN(hours) ? `${hours != 0 ? `${hours}:` : ''}${minutes}:${Math.round(seconds)}` : '0:00:00'}</span>
-        </div>
-
-        <div className="flex items-center justify-between w-64">
-          <button>
-            <Shuffle className="size-6 text-slate-300" />
-          </button>
-          <button>
-            <SkipBack onClick={toPreviousTrack} className="size-6 text-slate-300" />
-          </button>
-          <button onClick={handlePlayer} className="p-4 bg-violet-400 rounded-2xl">
-            {isPlaying ? (
-              <Pause className="size-8 text-slate-300" />
-              ) : (
+          <div className="flex items-center justify-between w-64">
+            <button className="cursor-default">
+              <Shuffle className="size-6 text-slate-300" />
+            </button>
+            <button className="cursor-default">
+              <SkipBack className="size-6 text-slate-300" />
+            </button>
+            <button className="p-4 bg-violet-400 rounded-2xl cursor-default dark:bg-aPurple-light">
               <Play className="size-8 text-slate-300" />
-            )}
-          </button>
-          <button>
-            <SkipForward onClick={toNextTrack} className="size-6 text-slate-300" />
-          </button>
-          <button>
-            <Repeat className="size-6 text-slate-300" />
-          </button>
+            </button>
+            <button className="cursor-default">
+              <SkipForward className="size-6 text-slate-300" />
+            </button>
+            <button className="cursor-default">
+              <Repeat className="size-6 text-slate-300" />
+            </button>
+          </div>
         </div>
-      </div>
-    </aside>
+      )
+      }    
+    </>
   )
 }

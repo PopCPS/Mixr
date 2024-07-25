@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
-import 'dayjs/locale/pt-br'
-import dayjs from "dayjs"
 import { Moon, Sun } from "lucide-react"
+import { useEffect, useState } from "react"
+import dayjs from "dayjs"
+import 'dayjs/locale/pt-br'
+import { dateFormatter } from "../lib/date-formatter"
 
 interface HeaderProps {
   isDarkModeActive: boolean,
@@ -15,8 +16,8 @@ export function Header({
 
   const [ date, setDate ] = useState<string>()
 
-  const weekDay = dayjs().locale('pt-br').format('ddd[,] D ').charAt(0).toUpperCase().concat(dayjs().locale('pt-br').format('ddd[,] D ').slice(1))
-  const dayAndMonth = dayjs().locale('pt-br').format('MMMM').charAt(0).toUpperCase().concat(dayjs().locale('pt-br').format('MMMM').slice(1))
+  const weekDay = dateFormatter(dayjs().toString(), 'ddd[,] D', 'pt-br')
+  const dayAndMonth = dateFormatter(dayjs().toString(), 'MMMM', 'pt-br')
 
   function darkModeHandler() {
     setIsDarkModeActive(!isDarkModeActive)
@@ -24,7 +25,7 @@ export function Header({
   }
   
   useEffect(() => {
-    setDate(weekDay.concat(dayAndMonth))
+    setDate(weekDay.concat(' ').concat(dayAndMonth))
   }, [weekDay, dayAndMonth])
 
   return (

@@ -4,4 +4,6 @@ export interface TracksInterface {
   artist: string
   audioSrc: string
   image: string
+  releaseDate: string
+  desc: string
 }
