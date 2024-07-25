@@ -14,6 +14,7 @@ export function Index() {
   const [ isDarkModeActive, setIsDarkModeActive ] = useState(false)
   const [ isAboutOpen, setIsAboutOpen ] = useState(false)
   const [ isPlaying, setIsPlaying ] = useState(false)
+  const [ aboutIndex, setAboutIndex ] = useState<number>(0);  
   const [ trackIndex, setTrackIndex ] = useState<number>();  
   const [ tracks, setTracks ] = useState<TracksInterface[]>([])
   const [ audioRef ] = useState(createRef<HTMLAudioElement>());
@@ -30,9 +31,19 @@ export function Index() {
     setTrackIndex(index)
   }
 
+  function handlePlayer() {
+    if(audioRef.current) {
+      setIsPlaying(!isPlaying)
+      if(!isPlaying) {
+        audioRef.current.play()
+      } else {
+        audioRef.current.pause()
+      }
+    }
+  }
+
   useEffect(() => {
     setTracks(tracksList)
-    
   }, [tracks])
 
   return (
@@ -50,19 +61,31 @@ export function Index() {
             <>
               <LastReleases 
                 tracksList={tracksList}
+                trackIndex={trackIndex}
                 setTrack={setTrack}
                 openAbout={openAbout}
                 isPlaying={isPlaying}
+                handlePlayer={handlePlayer}
+                setAboutIndex={setAboutIndex}
               />
               <AllReleases
                 tracksList={tracksList}
+                trackIndex={trackIndex}
                 setTrack={setTrack}
                 openAbout={openAbout}
-                //isPlaying={isPlaying}
+                isPlaying={isPlaying}
+                handlePlayer={handlePlayer}
+                setAboutIndex={setAboutIndex}
               />
             </>
           ) : (
             <AboutSection 
+              aboutIndex={aboutIndex}
+              trackIndex={trackIndex}
+              isPlaying={isPlaying}
+              trackList={tracks}
+              handlePlayer={handlePlayer}
+              setTrack={setTrack}
               closeAbout={closeAbout}
             />
           )}
@@ -87,7 +110,7 @@ export function Index() {
           trackIndex={trackIndex}
           tracks={tracksList}
           audioRef={audioRef}
-          setIsPlaying={setIsPlaying}
+          handlePlayer={handlePlayer}
           setTrackIndex={setTrackIndex}
         />
 

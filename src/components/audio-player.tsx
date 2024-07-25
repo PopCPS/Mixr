@@ -9,7 +9,7 @@ interface AudioPlayerProps {
   trackIndex: number | undefined,
   audioRef: RefObject<HTMLAudioElement>,
   setTrackIndex: (arg0: number) => void,
-  setIsPlaying: (arg0: boolean) => void
+  handlePlayer: () => void
 }
 
 export function AudioPlayer({
@@ -17,7 +17,7 @@ export function AudioPlayer({
   isPlaying,
   trackIndex, 
   audioRef,
-  setIsPlaying,
+  handlePlayer,
   setTrackIndex,
 }: AudioPlayerProps) {
 
@@ -37,17 +37,6 @@ export function AudioPlayer({
     const value = (curr * 100) / duration;
     return !Number.isNaN(value) ? value : 0;
   };
-
-  function handlePlayer() {
-    if(audioRef.current) {
-      setIsPlaying(!isPlaying)
-      if(!isPlaying) {
-        audioRef.current.play()
-      } else {
-        audioRef.current.pause()
-      }
-    }
-  }
 
   function toNextTrack() {
     if(trackIndex === undefined){
@@ -78,7 +67,7 @@ export function AudioPlayer({
         setAudioSource(audioSrc)
       }
     }
-    
+
   }, [audioSource, trackIndex, audioRef, isPlaying, tracks])
 
   return (
@@ -97,6 +86,7 @@ export function AudioPlayer({
             <span className="text-slate-300 text-sm">{formatTrackLength(curr)}</span>
             <input 
               className="custom-range"
+              style={{}}
               type="range"
               onChange={handleProgress}
               value={getProgressValue()}
@@ -115,7 +105,7 @@ export function AudioPlayer({
               {isPlaying ? (
                 <Pause className="size-8 text-slate-300" />
                 ) : (
-                <Play className="size-8 text-slate-300" />
+                <Play className="size-8 text-slate-300 fill-current" />
               )}
             </button>
             <button>

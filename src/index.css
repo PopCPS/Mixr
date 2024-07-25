@@ -36,8 +36,3 @@ span, p, h1, h2, h3, h4 {
   cursor: pointer;
   position: relative;
 }
-
-.custom-range::-webkit-slider-thumb::before {
-  position: relative;
-  background-color: #04D361;
-}
