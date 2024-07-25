@@ -33,7 +33,7 @@ export function AboutSection({ closeAbout }: AboutSectionProps) {
           </div>
         </div>
 
-        <p className="px-4 text-font-dark dark:text-zinc-40">
+        <p className="px-4 text-font-dark dark:text-zinc-400">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor nunc, rhoncus sit amet eros a, suscipit posuere tortor. Nam nisl purus, congue a tellus in, consectetur luctus purus. Donec vel bibendum sapien, nec dignissim mi. In a fringilla tortor, sed ullamcorper nisi. Sed mi augue, dapibus eu pharetra eget, lacinia eu sem. Vestibulum non pretium turpis, sit amet blandit massa. Cras ultrices nulla ut fringilla convallis. Quisque malesuada interdum semper. Morbi non ultricies libero. Phasellus aliquet purus sit amet dapibus varius. Etiam et enim non erat posuere ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent condimentum vel neque eget imperdiet. Vestibulum dictum, arcu non luctus vehicula, ante erat vestibulum elit, quis efficitur arcu risus a nisl. Quisque suscipit auctor justo, a commodo turpis laoreet eu. Praesent ac ullamcorper mauris.
 
           Maecenas molestie sapien sit amet metus tincidunt mattis viverra at neque. Donec dapibus, dolor ut rutrum laoreet, arcu diam convallis massa, sodales tristique magna justo vitae massa. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque non gravida quam, ut vehicula ipsum. Quisque sit amet arcu non neque laoreet pretium. Curabitur hendrerit vel metus eu cursus. Ut sit amet magna eget est finibus congue. Nunc non congue erat. Aenean orci sem, porta vitae justo sit amet, tincidunt consectetur enim. Nullam magna velit, ullamcorper ut nibh at, volutpat euismod arcu.

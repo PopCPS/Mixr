@@ -52,11 +52,13 @@ export function Index() {
                 tracksList={tracksList}
                 setTrack={setTrack}
                 openAbout={openAbout}
+                isPlaying={isPlaying}
               />
               <AllReleases
                 tracksList={tracksList}
                 setTrack={setTrack}
                 openAbout={openAbout}
+                //isPlaying={isPlaying}
               />
             </>
           ) : (
