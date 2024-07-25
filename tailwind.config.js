@@ -24,7 +24,9 @@ export default {
         'aPurple-light': '#52299e',
         'aPurple-border': '#553e80',
 
-        'light-gray': '#f7f8fa',
+        'light-gray': '#E6E8EB',
+
+        'font-dark': '#494D4B',
       },
       gradientColorStopPositions: {
         99: '99%'

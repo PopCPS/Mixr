@@ -5,11 +5,13 @@ import { useState, createRef } from "react";
 interface AllReleasesProps {
   tracksList: TracksInterface[]
   setTrack: (arg0: number) => void
+  openAbout: () => void
 }
 
 export function AllReleases({ 
   tracksList,
-  setTrack
+  setTrack,
+  openAbout,
 }: AllReleasesProps) {
 
   const [ audioRef ] = useState(createRef<HTMLAudioElement>());
@@ -48,8 +50,8 @@ export function AllReleases({
                   image={track.image}
                   audioSrc={track.audioSrc}
                   releaseDate={track.releaseDate}
-                  audioRef={audioRef}
                   setTrack={setTrack}
+                  openAbout={openAbout}
                 />  
               </div>
             )

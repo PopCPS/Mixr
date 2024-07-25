@@ -4,19 +4,24 @@ import { PodcastLatest } from "./podcast-latest";
 interface LastReleasesProps {
   tracksList: TracksInterface[]
   setTrack: (arg0 :number) => void
+  openAbout: () => void
 }
 
 export function LastReleases({ 
   tracksList, 
-  setTrack 
+  setTrack,
+  openAbout,
 }: LastReleasesProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold dark:text-zinc-300">Ultimos lançamentos</h2>
 
-      <div className="flex gap-x-6">
+      <div className="flex gap-x-10">
 
-        {tracksList.map((track) => {
+        {tracksList.map((track, index) => {
+          if(index == 2) {
+            return
+          }
           return (
             <PodcastLatest
               key={track.id}

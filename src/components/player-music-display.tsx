@@ -21,7 +21,7 @@ export function PlayerMusicDisplay({ trackIndex, tracks }: PlayerMusicDisplayPro
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-center border-2 border-lilac-border border-dashed w-80 h-96 rounded-3xl bg-gradient-to-t from-lilac to-lilac-light dark:bg-gradient-to-t dark:from-aPurple dark:to-aPurple-light dark:border-aPurple-border">
+          <div className="flex items-center justify-center border-2 border-lilac-border border-dashed w-80 h-96 rounded-3xl bg-gradient-to-t from-lilac to-lilac-light">
             <span className="text-center text-neutral-50 font-semibold w-40">Selecione um <br /> podcast para ouvir</span>
           </div>    
         )}

@@ -7,14 +7,24 @@ import { tracksList } from "./lib/podcasts";
 import { TracksInterface } from "./lib/tracks"
 import { Headphones } from "./components/headphones";
 import { PlayerMusicDisplay } from "./components/player-music-display";
+import { AboutSection } from "./components/about-section";
 
 export function Index() {
 
   const [ isDarkModeActive, setIsDarkModeActive ] = useState(false)
+  const [ isAboutOpen, setIsAboutOpen ] = useState(false)
   const [ isPlaying, setIsPlaying ] = useState(false)
   const [ trackIndex, setTrackIndex ] = useState<number>();  
   const [ tracks, setTracks ] = useState<TracksInterface[]>([])
   const [ audioRef ] = useState(createRef<HTMLAudioElement>());
+
+  function openAbout() {
+    setIsAboutOpen(true)
+  }
+
+  function closeAbout() {
+    setIsAboutOpen(false)
+  }
 
   function setTrack(index: number) {
     setTrackIndex(index)
@@ -34,22 +44,32 @@ export function Index() {
           isDarkModeActive={isDarkModeActive}
         />
 
-        <main className="bg-light-gray px-16 py-8 h-full space-y-8 dark:bg-gradient-to-t dark:from-zinc-800 dark:to-zinc-950">
+        <main className="bg-gradient-to-t from-neutral-200 from-75%  to-neutral-50 px-16 py-8 h-full space-y-8 dark:bg-gradient-to-t dark:from-zinc-800 dark:from-50% dark:to-zinc-950">
 
-          <LastReleases 
-            tracksList={tracksList}
-            setTrack={setTrack}
-          />
+          {!isAboutOpen ? (
+            <>
+              <LastReleases 
+                tracksList={tracksList}
+                setTrack={setTrack}
+                openAbout={openAbout}
+              />
+              <AllReleases
+                tracksList={tracksList}
+                setTrack={setTrack}
+                openAbout={openAbout}
+              />
+            </>
+          ) : (
+            <AboutSection 
+              closeAbout={closeAbout}
+            />
+          )}
 
-          <AllReleases
-            tracksList={tracksList}
-            setTrack={setTrack}
-          />
 
         </main>
       </div>
 
-      <aside className="flex flex-col items-center justify-between bg-lilac py-8 w-full max-w-[25%] dark:bg-aPurple">
+      <aside className="flex flex-col items-center justify-between bg-lilac py-8 w-full max-w-[25%]">
         <div className="flex items-center gap-4">
           <Headphones />
           <span className="font-semibold text-neutral-50">Tocando agora</span>

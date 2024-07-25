@@ -1,6 +1,6 @@
 import { Shuffle, SkipBack, Play, SkipForward, Repeat, Pause } from "lucide-react";
 import { TracksInterface } from "../lib/tracks"
-import { RefObject, useEffect, useState } from "react";
+import { ChangeEvent, RefObject, useEffect, useState } from "react";
 import { formatTrackLength } from "../lib/format-track-length";
 
 interface AudioPlayerProps {
@@ -24,13 +24,15 @@ export function AudioPlayer({
   const [ audioSource, setAudioSource ] = useState<string>()
   const [ duration, setDuration ] = useState(0);
   const [ curr, setCurr ] = useState(0);
-  const handleProgress = (e : any) => {
+
+  const handleProgress = (e : ChangeEvent<HTMLInputElement>) => {
     if(audioRef.current) {
       const progress = (Number(e.target.value) * duration) / 100
       setCurr(progress)
       audioRef.current.currentTime = progress
     }
   } 
+  
   const getProgressValue = () => {
     const value = (curr * 100) / duration;
     return !Number.isNaN(value) ? value : 0;
@@ -65,13 +67,6 @@ export function AudioPlayer({
   }
 
   useEffect(() => {
-    if(trackIndex !== undefined) {
-      const { audioSrc } = tracks[trackIndex]
-      setAudioSource(audioSrc)
-    }
-  }, [])
-
-  useEffect(() => {
     if(audioRef.current) {
       if(!isPlaying) {
         audioRef.current.pause()
@@ -84,7 +79,7 @@ export function AudioPlayer({
       }
     }
     
-  }, [audioSource, trackIndex])
+  }, [audioSource, trackIndex, audioRef, isPlaying, tracks])
 
   return (
     <>
@@ -92,14 +87,16 @@ export function AudioPlayer({
         <div className="flex flex-col justify-center items-center p-3 space-y-10 w-full">
           <div className="flex w-96 justify-center items-center gap-4">
             <audio 
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onTimeUpdate={e => setCurr((e.target as any).currentTime)}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onCanPlay={e => setDuration((e.target as any).duration)}
               ref={audioRef}
               src={audioSource ?? ''} 
             />
             <span className="text-slate-300 text-sm">{formatTrackLength(curr)}</span>
             <input 
-              className="custom-range dark:bg-aPurple-light"
+              className="custom-range"
               type="range"
               onChange={handleProgress}
               value={getProgressValue()}
@@ -114,7 +111,7 @@ export function AudioPlayer({
             <button>
               <SkipBack onClick={toPreviousTrack} className="size-6 text-slate-300" />
             </button>
-            <button onClick={handlePlayer} className="p-4 bg-violet-400 rounded-2xl dark:bg-aPurple-light">
+            <button onClick={handlePlayer} className="p-4 bg-violet-400 rounded-2xl">
               {isPlaying ? (
                 <Pause className="size-8 text-slate-300" />
                 ) : (
@@ -134,7 +131,7 @@ export function AudioPlayer({
           <div className="flex w-96 justify-center items-center gap-4">
             <audio/>
             <span className="text-slate-300 text-sm">00:00</span>
-            <div className="custom-range dark:bg-aPurple-light" />
+            <div className="custom-range" />
             <span className="text-slate-300 text-sm">00:00</span>
           </div>
 
@@ -145,8 +142,8 @@ export function AudioPlayer({
             <button className="cursor-default">
               <SkipBack className="size-6 text-slate-300" />
             </button>
-            <button className="p-4 bg-violet-400 rounded-2xl cursor-default dark:bg-aPurple-light">
-              <Play className="size-8 text-slate-300" />
+            <button className="p-4 bg-violet-400 rounded-2xl cursor-default">
+              <Play className="size-8 text-slate-300 fill-current" />
             </button>
             <button className="cursor-default">
               <SkipForward className="size-6 text-slate-300" />

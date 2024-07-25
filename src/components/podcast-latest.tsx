@@ -26,7 +26,7 @@ export function PodcastLatest({
   const [ audioRef ] = useState(createRef<HTMLAudioElement>());
 
   return (
-    <div onClick={() => {setTrack(index)}} className="flex bg-neutral-50 border rounded-3xl p-5 gap-x-4 w-[432px] cursor-pointer dark:bg-zinc-900 dark:border-zinc-800">
+    <div onClick={() => {setTrack(index)}} className="flex bg-neutral-50 border rounded-3xl p-5 gap-x-4 w-full cursor-pointer dark:bg-zinc-900 dark:border-zinc-800">
       <audio 
         src={audioSrc}
         ref={audioRef}
@@ -47,7 +47,7 @@ export function PodcastLatest({
             </div>
           </div>
           <div className="flex items-center justify-center border border-slate-300 rounded-xl size-10 dark:border-zinc-800">
-            <Play fill="#04D361" className="text-lime" />
+            <Play className="text-lime fill-current" />
           </div>
         </div>
 
