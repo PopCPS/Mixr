@@ -46,7 +46,7 @@ export function Podcast({
           <div className="space-y-2 flex-1">
               <div className="flex flex-col px-2 sm:flex-row md:items-center md:h-full">
                 <div className="flex flex-col flex-1 sm:justify-between sm:py-2">
-                  <h3 className="font-semibold font-xl text-left truncate dark:text-zinc-300">{title}</h3>
+                  <h3 className="font-semibold font-xl text-left truncate text-zinc-700 dark:text-zinc-300">{title}</h3>
                 <div className="space-y-3 text-left">
                   <span className="text-slate-500 truncate dark:text-zinc-400">{artist}</span>
                   <div className="hidden md:flex gap-x-2 items-center">
@@ -95,7 +95,7 @@ export function Podcast({
         <div className="grid grid-cols-music-small items-center w-full cursor-pointer md:grid md:grid-cols-music">
           <div className="flex items-center gap-4">
             <img className="size-10 rounded-lg" src={image} alt="img" />
-            <h3 className="font-semibold truncate dark:text-zinc-300">{title}</h3>
+            <h3 className="font-semibold truncate text-zinc-700 dark:text-zinc-300">{title}</h3>
           </div>
           <span className="font-normal text-left text-slate-500 text-sm truncate dark:text-zinc-400">{artist}</span>
           <span className="hidden font-normal text-left text-slate-500 text-sm dark:text-zinc-400 md:block">{dateFormatter(releaseDate, 'D MMM YY', 'pt-br')}</span>

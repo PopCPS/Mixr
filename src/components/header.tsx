@@ -31,7 +31,10 @@ export function Header({
   return (
     <nav className=" flex items-center justify-between p-4 w-full dark:bg-zinc-950 lg:px-16 lg:h-28">
       <div className="flex items-center gap-4 mg:gap-8">
-        <img className="h-10" src="/logo.svg" alt="img" />
+        <div className="flex items-center gap-4">
+          <img className="h-10" src="/logo.svg" alt="img" />
+          <h1 className="text-3xl font-bold text-zinc-700 dark:text-zinc-300">Mixr</h1>
+        </div>
         <div className="hidden w-px h-6 bg-slate-300 dark:bg-zinc-400 md:block" />
         <p className="hidden text-slate-500 text-sm font-normal dark:text-zinc-400 md:block">O melhor para você ouvir, sempre</p>
       </div>
