@@ -23,7 +23,7 @@ export function LastReleases({
 
   return (
     <div className="space-y-3 lg:space-y-6">
-      <h2 className="text-xl font-semibold dark:text-zinc-300">Ultimos lançamentos</h2>
+      <h2 className="text-xl font-semibold text-zinc-700 dark:text-zinc-300">Ultimos lançamentos</h2>
 
       <div className="flex gap-4 lg:gap-10">
 
