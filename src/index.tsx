@@ -47,15 +47,17 @@ export function Index() {
   }, [tracks])
 
   return (
-    <div className="flex h-screen">
-      <div className="flex flex-col bg-neutral-50 min-w-[70%] w-[75%]">
-        
+    <div className="flex flex-col w-screen lg:h-screen xl:flex-row">
+      <div className="flex min-h-screen w-full max-h-full flex-shrink-1 flex-col lg:h-screen xl:w-[75%]">
+      {/* flex flex-col bg-neutral-50 min-w-[70%] w-[75%] */}
         <Header
           setIsDarkModeActive={setIsDarkModeActive}
           isDarkModeActive={isDarkModeActive}
         />
 
-        <main className="bg-gradient-to-t from-neutral-200 from-75%  to-neutral-50 px-16 py-8 h-full space-y-8 dark:bg-gradient-to-t dark:from-zinc-800 dark:from-50% dark:to-zinc-950">
+        <main className="flex-grow-0 px-4 pb-[90px] space-y-5 bg-gradient-to-t from-neutral-200 from-75% to-neutral-50 dark:bg-gradient-to-t dark:from-zinc-800 dark:from-50% dark:to-zinc-950 md:py-6 lg:px-16 lg:h-full">
+
+        {/* bg-gradient-to-t from-neutral-200 from-75%  to-neutral-50 px-16 py-8 h-full space-y-8 dark:bg-gradient-to-t dark:from-zinc-800 dark:from-50% dark:to-zinc-950 */}
 
           {!isAboutOpen ? (
             <>
@@ -94,8 +96,8 @@ export function Index() {
         </main>
       </div>
 
-      <aside className="flex flex-col items-center justify-between bg-lilac py-8 w-full max-w-[25%]">
-        <div className="flex items-center gap-4">
+      <aside className="fixed bottom-0 px-4 h-[80px] flex items-center justify-between bg-lilac w-full xl:w-[25%] xl:flex-col xl:py-8 xl:static xl:h-full">
+        <div className="hidden items-center gap-4 xl:flex">
           <Headphones />
           <span className="font-semibold text-neutral-50">Tocando agora</span>
         </div>

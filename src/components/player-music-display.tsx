@@ -9,20 +9,20 @@ export function PlayerMusicDisplay({ trackIndex, tracks }: PlayerMusicDisplayPro
   return (
     <>
       {trackIndex !== undefined ? (
-          <div className="flex flex-col items-center justify-center gap-8">
+          <div className="flex items-center gap-4 xl:justify-center xl:gap-8 xl:flex-col">
             {tracks[trackIndex].image ? (
-              <div className={`flex items-center justify-center w-80 h-96 rounded-3xl bg-center bg-cover bg-no-repeat`} style={{backgroundImage: `url(${tracks[trackIndex].image})`}} />
+              <div className={`size-12 flex items-center justify-center rounded-xl bg-center bg-cover bg-no-repeat xl:w-64 xl:h-80 xl:rounded-3xl`} style={{backgroundImage: `url(${tracks[trackIndex].image})`}} />
             ) : (
               <div className="flex items-center justify-center border-2 border-lilac-border border-dashed w-80 h-96 rounded-3xl bg-gradient-to-t from-lilac to-lilac-light" />
             )}
-            <div className="flex flex-col items-center justify-center gap-2">
-              <h2 className="text-zinc-300 text-2xl font-semibold">{tracks[trackIndex].title}</h2>
-              <span className="text-zinc-300">{tracks[trackIndex].artist}</span> 
+            <div className="flex flex-col gap-1 xl:items-center xl:justify-center xl:gap-2">
+              <h2 className="text-zinc-300 text-lg xl:text-2xl font-semibold">{tracks[trackIndex].title}</h2>
+              <span className="text-zinc-300 text-md">{tracks[trackIndex].artist}</span> 
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-center border-2 border-lilac-border border-dashed w-80 h-96 rounded-3xl bg-gradient-to-t from-lilac to-lilac-light">
-            <span className="text-center text-neutral-50 font-semibold w-40">Selecione um <br /> podcast para ouvir</span>
+          <div className="size-12 rounded-xl xl:flex xl:items-center xl:justify-center border-2 border-lilac-border border-dashed xl:rounded-3xl bg-gradient-to-t from-lilac to-lilac-light xl:w-64 xl:h-80">
+            <span className="hidden text-center text-neutral-50 font-semibold w-40 xl:block">Selecione um <br /> podcast para ouvir</span>
           </div>    
         )}
     </>

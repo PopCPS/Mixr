@@ -22,13 +22,13 @@ export function LastReleases({
 }: LastReleasesProps) {
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       <h2 className="text-xl font-semibold dark:text-zinc-300">Ultimos lançamentos</h2>
 
-      <div className="flex gap-x-10">
+      <div className="flex gap-4 lg:gap-10">
 
         {tracksList.map((track, index) => {
-          if(index == 2) {
+          if(index >= 2) {
             return
           }
           return (

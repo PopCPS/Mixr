@@ -11,7 +11,8 @@ export default {
         sans: 'Inter',
       },
       gridTemplateColumns: {
-        'music': '43% 30% 11% 10% 6%'
+        'music': '43% 25% 11% 12% 9%',
+        'music-small': '50% 27% 23%'
       },
       colors: {
         'lime': '#04D361',

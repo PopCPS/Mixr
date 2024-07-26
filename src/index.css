@@ -20,10 +20,6 @@ span, p, h1, h2, h3, h4 {
 
 .custom-range {
   appearance: none;
-  width: 10rem;
-  height: 0.25rem;
-  border-radius: 0.125rem;
-  background-color: #9164FA;
 }
 
 .custom-range::-webkit-slider-thumb {
