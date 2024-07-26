@@ -1,4 +1,4 @@
-import { Shuffle, SkipBack, Play, SkipForward, Repeat, Pause, Volume2, Ellipsis } from "lucide-react";
+import { SkipBack, Play, SkipForward, Pause, Volume2, Ellipsis, Volume1, Volume } from "lucide-react";
 import { TracksInterface } from "../lib/tracks"
 import { ChangeEvent, RefObject, useEffect, useState } from "react";
 import { formatTrackLength } from "../lib/format-track-length";
@@ -9,7 +9,9 @@ interface AudioPlayerProps {
   trackIndex: number | undefined,
   audioRef: RefObject<HTMLAudioElement>,
   setTrackIndex: (arg0: number) => void,
-  handlePlayer: () => void
+  setAboutIndex: (arg0: number) => void,
+  handlePlayer: () => void,
+  openAbout: () => void,
 }
 
 export function AudioPlayer({
@@ -19,12 +21,14 @@ export function AudioPlayer({
   audioRef,
   handlePlayer,
   setTrackIndex,
+  setAboutIndex,
+  openAbout,
 }: AudioPlayerProps) {
 
   const [ audioSource, setAudioSource ] = useState<string>()
   const [ duration, setDuration ] = useState(0);
   const [ curr, setCurr ] = useState(0);
-  const [ currVolume, setCurrVolume ] = useState(50)
+  const [ currVolume, setCurrVolume ] = useState(100)
   const [ isVolumeModalOpen, setIsVolumeModalOpen ] = useState(false)
 
   function handleProgress(e : ChangeEvent<HTMLInputElement>) {
@@ -86,6 +90,7 @@ export function AudioPlayer({
         setAudioSource(audioSrc)
       }
     }
+
   }, [audioSource, trackIndex, audioRef, isPlaying, tracks])
 
 
@@ -114,7 +119,12 @@ export function AudioPlayer({
           </div>
 
           <div className="flex items-center justify-between xl:flex-1 xl:gap-2">
-            <button className="hidden p-2 md:block">
+            <button onClick={() => {
+                openAbout()
+                setAboutIndex(trackIndex)
+              }} 
+              className="hidden p-2 md:block"
+            >
               <Ellipsis className="size-6 text-slate-300 lg:size-8" />
             </button>
             <button className="hidden items-center p-2 justify-center md:flex">
@@ -143,7 +153,15 @@ export function AudioPlayer({
                   </div>
                 )}
               <button onClick={handleVolumeModal} className="flex items-center justify-center p-2">
-                <Volume2 className="size-8 text-slate-300 fill-current md:size-6 lg:size-8" />
+                {currVolume > 0.7 ? (
+                  <Volume2 className="size-8 text-slate-300 fill-current md:size-6 lg:size-8" />
+                ) : (
+                  currVolume > 0.4 ? (
+                    <Volume1 className="size-8 text-slate-300 fill-current md:size-6 lg:size-8" />
+                  ) : (
+                    <Volume className="size-8 text-slate-300 fill-current md:size-6 lg:size-8" />
+                  )
+                )}
               </button>
             </div>
             
@@ -157,22 +175,35 @@ export function AudioPlayer({
             <span className="hidden text-slate-300 text-sm xl:block">00:00</span>
           </div>
 
-          <div className="flex items-center justify-between xl:w-44">
-            <button className="hidden cursor-default">
-              <Shuffle className="size-6 text-slate-300" />
+          <div className="flex items-center justify-between xl:flex-1">
+            <button className="hidden p-2 xl:block">
+              <Ellipsis className="size-6 text-slate-300 lg:size-8" />
             </button>
-            <button className="hidden cursor-default xl:block">
-              <SkipBack className="size-6 text-slate-300 fill-current" />
+            <button className="hidden cursor-default items-center p-2 justify-center md:flex">
+              <SkipBack className="size-8 text-slate-300 fill-current md:size-6 lg:size-8" />
             </button>
-            <button className="p-2  cursor-default xl:bg-violet-400 xl:rounded-2xl xl:p-4">
-              <Play className="size-8 text-slate-300 fill-current" />
+            <button className="p-2 xl:p-4 xl:bg-violet-400 xl:rounded-2xl">
+                <Play className="size-8 cursor-default text-slate-300 fill-current xl:size-10" />
             </button>
-            <button className="hidden cursor-default xl:block">
-              <SkipForward className="size-6 text-slate-300 fill-current" /> 
+            <button className="hidden cursor-default items-center p-2 justify-center md:flex">
+              <SkipForward className="size-8 text-slate-300 fill-current md:size-6 lg:size-8" />
             </button>
-            <button className="hidden cursor-default">
-              <Repeat className="size-6 text-slate-300" />
-            </button>
+            <div className="relative order-first md:-order-none">
+              {isVolumeModalOpen && (
+                  <div className="bg-lilac absolute rounded-lg p-5 top-[-120px] xl:left-0 xl:top-[-130px] xl:bg-lilac-light xl:p-5">
+                    <input 
+                      type="range"
+                      className="custom-range h-20 w-1 bg-lilac-light accent-lime xl:h-20 xl:rounded-sm xl:w-1 xl:border-none"
+                      style={{writingMode: "vertical-lr", direction: "rtl"}}
+                      onChange={handleVolume}
+                      value={getVolumeValue()} 
+                    />
+                  </div>
+                )}
+              <button onClick={handleVolumeModal} className="flex items-center justify-center p-2">
+                <Volume2 className="size-8 text-slate-300 fill-current md:size-6 lg:size-8" />
+              </button>
+            </div>
           </div>
         </div>
       )

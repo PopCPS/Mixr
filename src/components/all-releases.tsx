@@ -25,7 +25,7 @@ export function AllReleases({
     <div className="space-y-3 lg:space-y-8">
 
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold dark:text-zinc-300">Todos os episódios</h2>
+        <h2 className="text-xl font-semibold dark:text-zinc-300">Todas as músicas</h2>
         <span className="font-normal text-sm text-slate-500 dark:text-zinc-400">{tracksList.length} ao total</span>
       </div>
 

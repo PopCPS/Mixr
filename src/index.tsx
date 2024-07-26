@@ -3,7 +3,7 @@ import { LastReleases } from "./components/last-releases";
 import { AudioPlayer } from "./components/audio-player";
 import { createRef, useEffect, useState } from "react";
 import { AllReleases } from "./components/all-releases";
-import { tracksList } from "./lib/podcasts";
+import { tracksList } from "./lib/musicas";
 import { TracksInterface } from "./lib/tracks"
 import { Headphones } from "./components/headphones";
 import { PlayerMusicDisplay } from "./components/player-music-display";
@@ -55,7 +55,7 @@ export function Index() {
           isDarkModeActive={isDarkModeActive}
         />
 
-        <main className="flex-grow-0 px-4 pb-[90px] space-y-5 bg-gradient-to-t from-neutral-200 from-75% to-neutral-50 dark:bg-gradient-to-t dark:from-zinc-800 dark:from-50% dark:to-zinc-950 md:py-6 lg:px-16 lg:h-full">
+        <main className="flex-1 px-4 pb-[90px] space-y-5 bg-gradient-to-t from-neutral-200 from-75% to-neutral-50 dark:bg-gradient-to-t dark:from-zinc-800 dark:from-50% dark:to-zinc-950 md:py-6 lg:px-16 lg:h-full">
 
         {/* bg-gradient-to-t from-neutral-200 from-75%  to-neutral-50 px-16 py-8 h-full space-y-8 dark:bg-gradient-to-t dark:from-zinc-800 dark:from-50% dark:to-zinc-950 */}
 
@@ -114,6 +114,8 @@ export function Index() {
           audioRef={audioRef}
           handlePlayer={handlePlayer}
           setTrackIndex={setTrackIndex}
+          setAboutIndex={setAboutIndex}
+          openAbout={openAbout}
         />
 
         
