@@ -29,15 +29,15 @@ export function Header({
   }, [weekDay, dayAndMonth])
 
   return (
-    <nav className="flex items-center px-16 h-28 justify-between dark:bg-zinc-950">
-      <div className="flex items-center gap-x-8">
+    <nav className=" flex items-center justify-between p-4 w-full dark:bg-zinc-950 lg:px-16 lg:h-28">
+      <div className="flex items-center gap-4 mg:gap-8">
         {!isDarkModeActive ? (
           <img className="h-10" src="/light-mode-logo.svg" alt="img" />
         ) : (
           <img className="h-10" src="/dark-mode-logo.svg" alt="img" />
         )}
-        <div className="w-px h-6 bg-slate-300 dark:bg-zinc-400" />
-        <p className="text-slate-500 text-sm font-normal dark:text-zinc-400">O melhor para você ouvir, sempre</p>
+        <div className="hidden w-px h-6 bg-slate-300 dark:bg-zinc-400 md:block" />
+        <p className="hidden text-slate-500 text-sm font-normal dark:text-zinc-400 md:block">O melhor para você ouvir, sempre</p>
       </div>
       <div className="flex items-center gap-2">
         <button onClick={darkModeHandler} className="p-2 rounded-3xl transition-all hover:bg-slate-200 hover:transition-colors dark:hover:bg-zinc-800">
