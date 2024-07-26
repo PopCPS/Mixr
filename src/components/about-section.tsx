@@ -24,10 +24,10 @@ export function AboutSection({
   const { id, title, artist, image, length, releaseDate, desc } = trackList[aboutIndex]
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center pt-4 xl:pt-0">
 
       <div className="flex flex-col gap-8 items-center py-3 w-[800px]">
-        <div className="flex items-center w-full h-40 rounded-3xl bg-gradient-to-r from-lime to-lilac relative bg-center bg-no-repeat" style={{backgroundImage: `url(${image})`}}>
+        <div className="flex items-center w-4/5 h-40 rounded-3xl bg-gradient-to-r from-lime to-lilac relative bg-center bg-no-repeat lg:w-full" style={{backgroundImage: `url(${image})`}}>
           <button onClick={closeAbout} className="bg-lilac p-3 rounded-2xl absolute left-[-1.5rem]">
             <ChevronLeft className="size-6 text-slate-300" />
           </button>
