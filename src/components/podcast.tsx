@@ -1,7 +1,9 @@
 import { Pause, Play, Ellipsis } from "lucide-react";
 import { dateFormatter } from "../lib/date-formatter";
-import { TracksInterface } from "../lib/tracks"
+import { TracksInterface } from "../utils/interfaces/tracks"
 import { tv, VariantProps } from 'tailwind-variants'
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { set_aboutIndex, set_isAboutOpen, set_trackIndex } from "../store/reducers/dataReducer";
 
 const podcastVariants = tv({
   variants: {
@@ -13,27 +15,33 @@ const podcastVariants = tv({
 })
 
 interface PodcastProps extends VariantProps<typeof podcastVariants> {
-  isPlaying: boolean,
-  trackIndex: number | undefined,
   track: TracksInterface,
   handlePlayer: () => void,
-  openAbout: () => void,
-  setTrack: (arg0: number) => void,
-  setAboutIndex: (arg0: number) => void,
 }
 
 export function Podcast({
   type,
-  isPlaying,
-  trackIndex,
   track,
-  openAbout,
   handlePlayer,
-  setTrack,
-  setAboutIndex,
 }: PodcastProps) {
 
+  const dispatch = useAppDispatch()
+
   const { id, title, artist, length, image, releaseDate } = track
+
+  const trackIndex = useAppSelector(state => state.apiData.trackIndex)
+  const isPlaying = useAppSelector(state => state.apiData.isPlaying)
+  
+  const setTrack = (index: number) => {
+    dispatch(set_trackIndex(index))
+  }
+  const setAboutIndex = (index: number) => {
+    dispatch(set_aboutIndex(index))
+  }
+
+  const openAbout = () => {
+    dispatch(set_isAboutOpen(true))
+  }
 
   return (
     <>

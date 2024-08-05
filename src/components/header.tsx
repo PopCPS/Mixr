@@ -4,15 +4,9 @@ import dayjs from "dayjs"
 import 'dayjs/locale/pt-br'
 import { dateFormatter } from "../lib/date-formatter"
 
-interface HeaderProps {
-  isDarkModeActive: boolean,
-  setIsDarkModeActive: (arg0: boolean) => void,
-}
-
-export function Header({
-  isDarkModeActive,
-  setIsDarkModeActive,
-}: HeaderProps) {
+export function Header() {
+  
+  const [ isDarkModeActive, setIsDarkModeActive ] = useState(false)
 
   const [ date, setDate ] = useState<string>()
 

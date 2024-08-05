@@ -1,29 +1,26 @@
 import { SkipBack, Play, SkipForward, Pause, Volume2, Ellipsis, Volume1, Volume } from "lucide-react";
-import { TracksInterface } from "../lib/tracks"
+import { TracksInterface } from "../utils/interfaces/tracks"
 import { ChangeEvent, RefObject, useEffect, useState } from "react";
 import { formatTrackLength } from "../lib/format-track-length";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { set_aboutIndex, set_isAboutOpen, set_trackIndex } from "../store/reducers/dataReducer";
 
 interface AudioPlayerProps {
   tracks: TracksInterface[],
-  isPlaying: boolean | undefined,
-  trackIndex: number | undefined,
   audioRef: RefObject<HTMLAudioElement>,
-  setTrackIndex: (arg0: number) => void,
-  setAboutIndex: (arg0: number) => void,
   handlePlayer: () => void,
-  openAbout: () => void,
 }
 
 export function AudioPlayer({
   tracks, 
-  isPlaying,
-  trackIndex, 
   audioRef,
   handlePlayer,
-  setTrackIndex,
-  setAboutIndex,
-  openAbout,
 }: AudioPlayerProps) {
+
+  const dispatch = useAppDispatch()
+
+  const trackIndex = useAppSelector(state => (state.apiData.trackIndex))
+  const isPlaying = useAppSelector(state => state.apiData.isPlaying)
 
   const [ audioSource, setAudioSource ] = useState<string>()
   const [ duration, setDuration ] = useState(0);
@@ -38,6 +35,18 @@ export function AudioPlayer({
       audioRef.current.currentTime = progress
     }
   } 
+
+  const setTrack = (index: number) => {
+    dispatch(set_trackIndex(index))
+  }
+
+  const setAboutIndex = (index: number) => {
+    dispatch(set_aboutIndex(index))
+  }
+
+  const openAbout = () => {
+    dispatch(set_isAboutOpen(true))
+  }
   
   function getProgressValue() {
     const value = (curr * 100) / duration;
@@ -63,18 +72,18 @@ export function AudioPlayer({
 
   function toNextTrack() {
     if(trackIndex === undefined){
-      setTrackIndex(0)
+      setTrack(0)
     } else {
-      trackIndex < tracks.length - 1 ? setTrackIndex(trackIndex + 1) : setTrackIndex(0)
+      trackIndex < tracks.length - 1 ? setTrack(trackIndex + 1) : setTrack(0)
     }
     
   }
         
   function toPreviousTrack() {
     if(trackIndex === undefined) {
-      setTrackIndex(0)
+      setTrack(0)
     } else {
-      trackIndex - 1 < 0 ? setTrackIndex(tracks.length - 1) : setTrackIndex(trackIndex - 1)
+      trackIndex - 1 < 0 ? setTrack(tracks.length - 1) : setTrack(trackIndex - 1)
     }
   }
 

@@ -1,11 +1,14 @@
-import { TracksInterface } from "../lib/tracks";
+import { useAppSelector } from "../store/hooks";
+import { TracksInterface } from "../utils/interfaces/tracks";
 
 interface PlayerMusicDisplayProps {
-  trackIndex?: number | undefined,
   tracks: TracksInterface[],
 }
 
-export function PlayerMusicDisplay({ trackIndex, tracks }: PlayerMusicDisplayProps) {
+export function PlayerMusicDisplay({ tracks }: PlayerMusicDisplayProps) {
+
+  const trackIndex = useAppSelector(state => state.apiData.trackIndex)
+
   return (
     <>
       {trackIndex !== undefined ? (

@@ -1,23 +1,13 @@
-import { TracksInterface } from "../lib/tracks"
+import { TracksInterface } from "../utils/interfaces/tracks"
 import { Podcast } from "./podcast";
 
 interface AllReleasesProps {
-  isPlaying: boolean,
-  trackIndex: number | undefined
   tracksList: TracksInterface[],
-  setTrack: (arg0: number) => void,
-  setAboutIndex: (arg0: number) => void,
-  openAbout: () => void,
   handlePlayer: () => void,
 }
 
 export function AllReleases({ 
-  isPlaying,
   tracksList,
-  trackIndex,
-  openAbout,
-  setTrack,
-  setAboutIndex,
   handlePlayer,
 }: AllReleasesProps) {
 
@@ -50,12 +40,7 @@ export function AllReleases({
                 <Podcast 
                   type="grid"
                   track={track}
-                  trackIndex={trackIndex}
-                  isPlaying={isPlaying}
-                  openAbout={openAbout}
                   handlePlayer={handlePlayer}
-                  setTrack={setTrack}
-                  setAboutIndex={setAboutIndex}
                 />
               </div>
             )
@@ -67,14 +52,3 @@ export function AllReleases({
     </div>
   )
 }
-
-{/* <PodcastListed
-  index={track.id}
-  title={track.title}
-  artist={track.artist}
-  image={track.image}
-  audioSrc={track.audioSrc}
-  releaseDate={track.releaseDate}
-  setTrack={setTrack}
-  openAbout={openAbout}
-/>   */}

@@ -1,26 +1,16 @@
-import { TracksInterface } from "../lib/tracks";
+
+import { TracksInterface } from "../utils/interfaces/tracks";
 import { Podcast } from "./podcast";
 
 interface LastReleasesProps {
-  isPlaying: boolean
-  trackIndex: number | undefined
   tracksList: TracksInterface[]
-  setTrack: (arg0 :number) => void
-  setAboutIndex: (arg0 :number) => void
   handlePlayer: () => void
-  openAbout: () => void
 }
 
 export function LastReleases({ 
-  isPlaying,
   tracksList,
-  trackIndex,
-  setTrack,
   handlePlayer,
-  openAbout, 
-  setAboutIndex,
 }: LastReleasesProps) {
-
   return (
     <div className="space-y-3 lg:space-y-6">
       <h2 className="text-xl font-semibold text-zinc-700 dark:text-zinc-300">Ultimos lançamentos</h2>
@@ -36,12 +26,7 @@ export function LastReleases({
               key={index}
               type="flex"
               track={track}
-              trackIndex={trackIndex}
-              isPlaying={isPlaying}
-              openAbout={openAbout}
               handlePlayer={handlePlayer}
-              setTrack={setTrack}
-              setAboutIndex={setAboutIndex}
             />
           )
         })}
